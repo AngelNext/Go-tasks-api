@@ -4,7 +4,7 @@
   "description": "",
   "main": "build/app.js",
   "scripts": {
-    "build": "sass styles/src/app.sass styles/build/app.css --no-source-map --style=compressed && esbuild ts/src/app.ts --bundle --minify --outfile=ts/build/app.js"
+    "build": "sass styles/sass/app.sass styles/css/app.css --no-source-map --style=compressed && esbuild src/app.ts --bundle --minify --outfile=build/app.js"
   },
   "keywords": [],
   "author": "",

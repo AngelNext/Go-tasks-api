@@ -8,10 +8,11 @@ import (
 	"github.com/AngelNext/tasks/models"
 	"github.com/AngelNext/tasks/routes"
 
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"os"
 )
 
 func main() {
@@ -39,11 +40,8 @@ func main() {
 		c.Set("Allow", "GET, POST, DELETE, PUT, OPTIONS")
 		c.Set("Cache-Control", "max-age=604800")
 		c.Set("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type")
-		return nil
-	})
-	app.Use(func(c *fiber.Ctx) error {
 		c.Set("X-Content-Type-Options", "nosniff")
-		return c.Next()
+		return nil
 	})
 	log.Fatal(app.Listen(":4000"))
 }

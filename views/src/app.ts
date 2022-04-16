@@ -8,11 +8,6 @@ const statusCode = document.getElementById(
   "status-code"
 ) as HTMLParagraphElement;
 
-/** Shows the response of the request in the output area and the status of that response
- * @param res The response of the request
- * @function
- * @async
- */
 const showRes = async (res: Response) => {
   res.ok
     ? statusCode.classList.add("success")
@@ -20,6 +15,8 @@ const showRes = async (res: Response) => {
   statusCode.innerText = `${res.status} - ${res.statusText}`;
   reqOutput.value = JSON.stringify(await res.json(), null, 2);
 };
+
+const REPLACE_REGEX = /(\r\n|\n|\r)/gm;
 
 getBtn.addEventListener("click", async () => {
   const res = await fetch(`/tasks/${id.value}`);
@@ -29,10 +26,10 @@ getBtn.addEventListener("click", async () => {
 postBtn.addEventListener("click", async () => {
   const res = await fetch("/tasks", {
     method: "POST",
-    body: reqOutput.value.replace(/(\r\n|\n|\r)/gm, ""),
-    headers: new Headers({
+    body: reqOutput.value.replace(REPLACE_REGEX, ""),
+    headers: {
       "Content-Type": "application/json",
-    }),
+    },
   });
   await showRes(res);
 });
@@ -40,10 +37,10 @@ postBtn.addEventListener("click", async () => {
 putBtn.addEventListener("click", async () => {
   const res = await fetch(`/tasks/${id.value}`, {
     method: "PUT",
-    body: reqOutput.value.replace(/(\r\n|\n|\r)/gm, ""),
-    headers: new Headers({
+    body: reqOutput.value.replace(REPLACE_REGEX, ""),
+    headers: {
       "Content-Type": "application/json",
-    }),
+    },
   });
   await showRes(res);
 });
