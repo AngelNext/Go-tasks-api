@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/AngelNext/tasks/database"
-	"github.com/AngelNext/tasks/models"
-	"github.com/AngelNext/tasks/routes"
+	"github.com/AngelNext/tasks-api/database"
+	"github.com/AngelNext/tasks-api/models"
+	"github.com/AngelNext/tasks-api/routes"
 
 	"os"
 
@@ -17,19 +17,19 @@ import (
 
 func main() {
 	var dbOpenErr error
-	if database.DB, dbOpenErr = gorm.Open(mysql.Open(fmt.Sprintf("root:%s@tcp(127.0.0.1:3306)/gotasks", os.Getenv("MYSQL_PASSWORD")))); dbOpenErr != nil {
-		log.Fatal(dbOpenErr)
+	if database.DB, dbOpenErr = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_DB")))); dbOpenErr != nil {
+		log.Fatalln(dbOpenErr)
 	}
+
 	if databaseMigrateErr := database.DB.AutoMigrate(&models.Task{}); databaseMigrateErr != nil {
-		log.Fatal("Error while migrating database")
+		log.Fatalln("Error while migrating database")
 	}
+
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
-		Prefork:       true,
 		AppName:       "Tasks API",
 	})
-	app.Static("/", "./public")
-	app.Get("/", routes.Home)
+
 	app.Get("/tasks", routes.GetTasks)
 	app.Get("/tasks/:id", routes.GetTask)
 	app.Post("/tasks", routes.CreateTask)
@@ -43,5 +43,6 @@ func main() {
 		c.Set("X-Content-Type-Options", "nosniff")
 		return nil
 	})
-	log.Fatal(app.Listen(":4000"))
+
+	log.Fatalln(app.Listen(":4000"))
 }
