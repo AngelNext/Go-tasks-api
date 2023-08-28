@@ -11,17 +11,11 @@ import (
 func DeleteTask(c *fiber.Ctx) error {
 	db := database.DB
 	db.Delete(&models.Task{}, "id = ?", c.Params("id"))
-	return c.JSON(models.Info{
-		Success: true,
-		Message: "Task Deleted Successfully",
-	})
+	return c.SendString("Task Deleted Successfully")
 }
 
 func DeleteTasks(c *fiber.Ctx) error {
 	db := database.DB
 	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&models.Task{})
-	return c.JSON(models.Info{
-		Success: true,
-		Message: "All Tasks Deleted Successfully",
-	})
+	return c.SendString("All Tasks Deleted Successfully")
 }

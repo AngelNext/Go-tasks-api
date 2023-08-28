@@ -9,17 +9,13 @@ import (
 )
 
 func CreateTask(c *fiber.Ctx) error {
+  db := database.DB
 	var task models.Task
 	if err := c.BodyParser(&task); err != nil {
-		return c.Status(503).JSON(models.Info{
-			Success: false,
-			Message: "Invalid JSON Request Body",
-		})
+		return c.Status(503).SendString("Invalid JSON Request Body")
 	}
+
 	task.ID = ksuid.New().String()
-	database.DB.Create(&task)
-	return c.Status(201).JSON(models.Info{
-		Success: true,
-		Message: "Task Created Successfully",
-	})
+	db.Create(&task)
+	return c.Status(201).SendString("Task Created Successfully")
 }
