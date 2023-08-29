@@ -1,15 +1,15 @@
 package routes
 
 import (
-	"github.com/AngelNext/tasks-api/database"
-	"github.com/AngelNext/tasks-api/models"
+	"github.com/angelnext/tasks-api/database"
+	"github.com/angelnext/tasks-api/models"
 	"github.com/gofiber/fiber/v2"
 )
 
 func GetTasks(c *fiber.Ctx) error {
 	db := database.DB
 	var tasks []models.Task
-	db.Find(&tasks)
+	db.Order("created_at DESC, id DESC").Find(&tasks)
 	return c.JSON(tasks)
 }
 

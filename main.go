@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/AngelNext/tasks-api/database"
-	"github.com/AngelNext/tasks-api/models"
-	"github.com/AngelNext/tasks-api/routes"
+	"github.com/angelnext/tasks-api/database"
+	"github.com/angelnext/tasks-api/models"
+	"github.com/angelnext/tasks-api/routes"
 
 	"os"
 
