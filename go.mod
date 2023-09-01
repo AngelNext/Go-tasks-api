@@ -1,4 +1,4 @@
-module github.com/angelnext/tasks-api
+module github.com/angelnext/tasks
 
 go 1.18
 

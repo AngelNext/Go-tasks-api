@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/angelnext/tasks-api/database"
-	"github.com/angelnext/tasks-api/models"
+	"github.com/angelnext/tasks/database"
+	"github.com/angelnext/tasks/models"
 	"gorm.io/gorm"
 
 	"github.com/gofiber/fiber/v2"
